@@ -2,7 +2,6 @@ package de.robinschuerer.base.indexservice;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -26,9 +25,7 @@ public class ElasticSearchIndexService {
 
     private final static String INDEX_NAME = "enron";
 
-    private final static String URL = "http://localhost:9200/" + INDEX_NAME+ "/data/";
-
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final static String URL = "http://localhost:9200/" + INDEX_NAME + "/data/";
 
     public void index(@Nonnull final File dataFile) throws IOException {
 
@@ -36,6 +33,7 @@ public class ElasticSearchIndexService {
         final JsonFactory factory = new JsonFactory(objectMapper);
         final JsonParser parser = factory.createParser(dataFile);
 
+        int count = 0;
         while (true) {
             final JsonToken token = parser.nextToken();
             if (token == null) {
@@ -53,10 +51,12 @@ public class ElasticSearchIndexService {
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            final HttpEntity<String> request = new HttpEntity<>(normalized.toString(), headers);
+            final HttpEntity<TreeNode> request = new HttpEntity<>(normalized, headers);
+
+            System.out.println(String.format("%s", count++));
 
             try {
-                restTemplate.put(URL + UUID.randomUUID().toString(), request);
+                new RestTemplate().put(URL + idNode.textValue(), request);
             } catch (HttpClientErrorException e) {
                 System.out.println(e.getResponseBodyAsString());
 

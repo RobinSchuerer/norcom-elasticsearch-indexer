@@ -2,11 +2,14 @@ package de.robinschuerer.base.argument;
 
 import java.io.File;
 
+import javax.annotation.Nonnull;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class ArgumentParser {
 
+    @Nonnull
     public IndexerConfiguration parse(final String[] args) {
         if (args.length != 2) {
             return IndexerConfiguration.invalid("Please specify path to data json: -input PATH");

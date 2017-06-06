@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,6 +27,9 @@ public class ElasticSearchIndexService {
     private final static String INDEX_NAME = "enron";
 
     private final static String URL = "http://localhost:9200/" + INDEX_NAME + "/data/";
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public void index(@Nonnull final File dataFile) throws IOException {
 
@@ -56,7 +60,7 @@ public class ElasticSearchIndexService {
             System.out.println(String.format("%s", count++));
 
             try {
-                new RestTemplate().put(URL + idNode.textValue(), request);
+                this.restTemplate.put(URL + idNode.textValue(), request);
             } catch (HttpClientErrorException e) {
                 System.out.println(e.getResponseBodyAsString());
 

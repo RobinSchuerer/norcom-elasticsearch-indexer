@@ -3,7 +3,3 @@
 hs_err_pid*
 .gradle
 /build/
-!gradle-wrapper.jar
-gradle/
-gradlew
-gradlew.bat

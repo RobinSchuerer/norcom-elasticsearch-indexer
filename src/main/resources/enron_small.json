@@ -1,7 +1,5 @@
 {
-  "_id": {
-    "$oid": "52af48b5d55148fa0c199643"
-  },
+  "backup_id": "52af48b5d55148fa0c199643",
   "sender": "rosalee.fleming@enron.com",
   "recipients": [
     "sherri.reinartz@enron.com"

@@ -61,7 +61,7 @@ public class ElasticSearchIndexService {
 
     private void createMapping() throws IOException {
         final ClassPathResource mappingFile = new ClassPathResource("mapping.json");
-        final ObjectNode mapping = JsonReader.read(mappingFile.getFile());
+        final ObjectNode mapping = JsonReader.read(mappingFile.getInputStream());
 
         try {
             final HttpEntity<ObjectNode> request = getHttpEntity(mapping);

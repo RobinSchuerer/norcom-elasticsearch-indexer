@@ -2,6 +2,7 @@ package de.robinschuerer.json;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 
 import javax.annotation.Nonnull;
@@ -26,6 +27,20 @@ public class JsonReader {
         final JsonFactory factory = new JsonFactory(objectMapper);
         try {
             final JsonParser parser = factory.createParser(file);
+            parser.nextToken();
+
+            return parser.readValueAsTree();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    @Nonnull
+    public static ObjectNode read(@Nonnull final InputStream inputStream) {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final JsonFactory factory = new JsonFactory(objectMapper);
+        try {
+            final JsonParser parser = factory.createParser(inputStream);
             parser.nextToken();
 
             return parser.readValueAsTree();
